@@ -1,6 +1,6 @@
 # Request and download files
 
-Very basic app to download all links in a json file
+Basic app to download all links in a json file
 
 ### How it work's
 
