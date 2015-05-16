@@ -1,37 +1,55 @@
 'use strict'
 
+//
+// Node config
+// ====================
 var request = require('request')
+var path = require('path')
 var fs = require('fs')
+
+//
+// App config
+// ====================
+var fileName = process.argv[2]
+var file = null
 var total = null
 var course = null
 
-if (!/\.json$/.test(process.argv[2])) {
-  console.log('You are doing it wrong...', process.argv[2])
-  console.log('Provide a JSON file...')
-  return
+//
+// Request app
+// ====================
+if (!/\.json$/.test(fileName)) {
+  console.log('\nYou are doing it wrong...', fileName)
+  console.log('Provide a valid JSON file...\n')
+  throw new Error('We just accept JSON files.')
 }
 
-course = require('./'+process.argv[2])
-total = (course.length - 1)
+file = JSON.parse(fs.readFileSync(fileName, 'utf8'))
 
-function getVideo(obj, videoIndex) {
-  console.log(obj);
-  var ind = String(videoIndex).length < 2 ? '0' + videoIndex : videoIndex
-  var url = obj.url
+if (file) {
+  course = file
+  total = (course.length - 1)
+}
+
+(function getFile(obj, fileIndex) {
+
+  var ind = String(fileIndex).length < 2 ? '0' + fileIndex : fileIndex
+  var fileUrl = obj.url
+  var fileExtension = path.extname(fileUrl)
   var title = ind + '-' + obj.name.replace(/\W/g, '-')
+
   request
-    .get(url)
+    .get(fileUrl)
     .on('response', function(res) {
-      console.log('Downloading video: ', title+'.mp4', res.statusCode, res.headers['content-type'])
+      console.log('Downloading video: ', title+fileExtension, res.statusCode, res.headers['content-type'])
     })
     .on('end', function() {
-      console.log('Download finished: ', title+'.mp4')
+      console.log('Download finished: ', title+fileExtension)
 
-      if (videoIndex !== total) {
-        getVideo(course[(videoIndex + 1)], (videoIndex + 1))
+      if (fileIndex !== total) {
+        getFile(course[(fileIndex + 1)], (fileIndex + 1))
       }
     })
-    .pipe(fs.createWriteStream(title+'.mp4'))
-}
+    .pipe(fs.createWriteStream(title+fileExtension))
 
-getVideo(course[0], 0)
+})(course[0], 0)

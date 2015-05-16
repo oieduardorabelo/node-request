@@ -1,0 +1,23 @@
+{
+  "name": "node-request",
+  "version": "0.0.1",
+  "description": "Very basic app to read a JSON and download a file, using streams",
+  "main": "app.js",
+  "dependencies": {
+    "request": "^2.55.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/oieduardorabelo/node-request.git"
+  },
+  "author": "Eduardo Rabelo <oieduardorabelo@gmail.com> (http://eduardorabelo.me)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/oieduardorabelo/node-request/issues"
+  },
+  "homepage": "https://github.com/oieduardorabelo/node-request#readme"
+}
