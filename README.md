@@ -2,6 +2,10 @@
 
 Basic app to download all links in a json file
 
+***Recursiveness***
+
+![Using Recursiveness](http://img-9gag-fun.9cache.com/photo/aG9Qyp5_700b.jpg)
+
 ### How it work's
 
 First things first, install dependencies:
