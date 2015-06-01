@@ -20,18 +20,26 @@ var course = null
 // ====================
 if (!/\.json$/.test(fileName)) {
   console.log('\nYou are doing it wrong...', fileName)
-  console.log('Provide a valid JSON file...\n')
+  console.log('Provide a JSON file...\n')
   throw new Error('We just accept JSON files.')
 }
 
-file = JSON.parse(fs.readFileSync(fileName, 'utf8'))
-
-if (file) {
-  course = file
+try {
+  course = JSON.parse(fs.readFileSync(fileName, 'utf8'))
   total = (course.length - 1)
+} catch(err) {
+  console.log('\nYou are doing it wrong...', fileName)
+  console.log('Should be a valid JSON file...\n')
+  throw new Error('The file should be a valid JSON.')
 }
 
+
 (function getFile(obj, fileIndex) {
+  if ( !('name' in obj && 'url' in obj) ) {
+    console.log('\nYou have a valid JSON...', fileName)
+    console.log('But you dont have a valid structure...\n')
+    throw new Error('Wrong JSON structure, look at README file')
+  }
 
   var ind = String(fileIndex).length < 2 ? '0' + fileIndex : fileIndex
   var fileUrl = obj.url
